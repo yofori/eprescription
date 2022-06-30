@@ -4,6 +4,7 @@ const nodemailer = require("../config/nodemailer.config");
 const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
+const sendsms = require("../config/sendsms");
 const jwtSecret = process.env.JWT_SECRET;
 
 //This handles the registration of a user
@@ -40,6 +41,8 @@ const register = async (req, res, next) => {
           user.email,
           user.confirmationCode
         );
+        smsmessage = `Dear ${user.username} Please use this link http://18.217.10.97/api/verifyuser/${user.confirmationCode} to verify your registration`
+        sendsms.sendSMS(user.telephoneNo, smsmessage);
       })
       .catch((error) =>
         res.status(400).json({

@@ -31,6 +31,7 @@ const UserSchema = new Mongoose.Schema({
   prescriberMDCRegNo: {
     type: String,
     unique: true,
+    required: true,
   },
   title: {
     type: String,
@@ -40,6 +41,10 @@ const UserSchema = new Mongoose.Schema({
     required: true,
   },
   firstname: {
+    type: String,
+    required: true,
+  },
+  telephoneNo: {
     type: String,
     required: true,
   },

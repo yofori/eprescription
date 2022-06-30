@@ -2,7 +2,6 @@ const nodemailer = require("nodemailer");
 
 const user = process.env.MAIL_USER;
 const pass = process.env.MAIL_PASSWORD;
-const smtp = process.env.SMTP_SERVER;
 
 const transport = nodemailer.createTransport({
   host: process.env.SMTP_SERVER,
@@ -10,10 +9,6 @@ const transport = nodemailer.createTransport({
   auth: {
     user: user,
     pass: pass,
-  },
-  tls: {
-    // do not fail on invalid certs
-    rejectUnauthorized: false,
   },
 });
 

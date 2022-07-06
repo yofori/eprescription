@@ -9,12 +9,10 @@ const MedicationSchema = new Mongoose.Schema({
   noOfDays: { type: Number, default: 30 },
   status: {
     type: String,
-    enum: ["submitted",  "completed"],
+    enum: ["submitted", "completed"],
     default: "submitted",
   },
 });
-
-const Medication = Mongoose.model("Medication", MedicationSchema);
 
 const PrescriptionSchema = new Mongoose.Schema({
   pxId: {
@@ -78,4 +76,4 @@ const PrescriptionSchema = new Mongoose.Schema({
 PrescriptionSchema.set("timestamps", true);
 
 const Prescription = Mongoose.model("prescription", PrescriptionSchema);
-(module.exports = Prescription), Medication;
+module.exports = Prescription;

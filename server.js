@@ -32,7 +32,8 @@ app.use(
 
 app.use(logger("dev"));
 var corsOptions = {
-  origin: "http://localhost:8081",
+  credentials: true,
+  origin: "*",
 };
 const { adminAuth, userAuth } = require("./middleware/auth.js");
 const router = require("./routes/index");

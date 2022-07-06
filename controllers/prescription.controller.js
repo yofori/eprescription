@@ -5,13 +5,10 @@ const createNew = async (req, res, next) => {
   req.body.prescriberID = req.session.user._id;
   req.body.prescriberMDCRegNo = req.session.user.prescriberMDCRegNo;
   req.body.prescriberName =
-    req.session.user.title || "" +
-    " " +
-    req.session.user.firstname +
-    " " +
-    req.session.user.surname;
+    req.session.user.title ||
+    "" + " " + req.session.user.firstname + " " + req.session.user.surname;
   const prescription = req.body;
-  await db.Prescriptions.create(prescription)
+  await db.Prescription.create(prescription)
     .then((Prescription) => {
       console.log("Prescription created");
       res
@@ -27,26 +24,26 @@ const createNew = async (req, res, next) => {
 };
 
 //get a prescription usind prescriptionid
-const getPrescription = async (req, res, next) => {
-  await db.Prescriptions.findById(req.params.prescriptionId).then(
-    (prescription) => {
-      console.log(prescription);
-      if (!prescription) {
-        return res.status(404).send({ message: "Prescription not found." });
-      }
-      res.status(200).json({
-        message: "Success! Prescription found",
-        username: prescription,
-      });
+const getPrescription = async (req, res) => {
+  let id = req.params.prescriptionId;
+  console.log(id);
+  await db.Prescription.findById(id).then((prescription) => {
+    console.log(prescription);
+    if (!prescription) {
+      return res.status(404).send({ message: "Prescription not found." });
     }
-  );
+    res.status(200).json({
+      message: "Success! Prescription found",
+      username: prescription,
+    });
+  });
 };
 
 // add medication to a prescription
 const addMedication = async (req, res, next) => {
   const medication = req.body;
   try {
-    await db.Prescriptions.updateOne(
+    await db.Prescription.updateOne(
       { _id: req.params.prescriptionId },
       { $push: { medications: medication } }
     );
@@ -65,7 +62,7 @@ const addMedication = async (req, res, next) => {
 // update existing medication on a prescription
 const updateMedication = async (req, res) => {
   try {
-    await db.Prescriptions.findById(req.params.prescriptionId).then(
+    await db.Prescription.findById(req.params.prescriptionId).then(
       (prescription) => {
         prescription.medications.id(req.body._id).routeOfAdministration =
           req.body.routeOfAdministration;
@@ -111,7 +108,7 @@ const showPrescriberId = (req, res) => {
 
 const getPrescriberPrescriptions = async (req, res, next) => {
   try {
-    await db.Prescriptions.find({
+    await db.Prescription.find({
       prescriberID: req.session.user._id.toString(),
     }).then((prescriptions) => {
       if (prescriptions.length === 0) {
@@ -132,7 +129,7 @@ const getPrescriberPrescriptions = async (req, res, next) => {
 
 const getPatientPrescriptions = async (req, res, next) => {
   try {
-    await db.Prescriptions.find({
+    await db.Prescription.find({
       pxId: req.query.pxId,
     }).then((prescriptions) => {
       if (prescriptions.length === 0) {

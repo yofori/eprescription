@@ -42,7 +42,7 @@ const register = async (req, res, next) => {
           user.email,
           user.confirmationCode
         );
-        smsmessage = `Dear ${user.username} Please use this link http://${hostname}/api/user/verify/${user.confirmationCode} to verify your registration`
+        smsmessage = `Dear ${user.username} Please use this link http://${hostname}/api/user/verify/${user.confirmationCode} to verify your registration`;
         sendsms.sendSMS(user.telephoneNo, smsmessage);
       })
       .catch((error) =>
@@ -97,7 +97,9 @@ const login = async (req, res, next) => {
             });
             res.status(200).json({
               message: "User successfully Logged in",
-              user: user._id,
+              user: user,
+              token: token,
+              expires: maxAge,
             });
           }
         } else {

@@ -31,7 +31,7 @@ app.use(
 );
 
 app.use(logger("dev"));
-var corsOptions = {
+const corsOptions = {
   credentials: true,
   origin: "*",
 };

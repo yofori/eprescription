@@ -34,7 +34,7 @@ const getPrescription = async (req, res) => {
     }
     res.status(200).json({
       message: "Success! Prescription found",
-      username: prescription,
+      prescription: prescription,
     });
   });
 };

@@ -24,14 +24,14 @@ const adminAuth = (req, res, next) => {
 };
 
 const userAuth = (req, res, next) => {
-  const token = req.cookies.jwt;
+  const token = req.cookies.jwt || req.headers.authorization;
   if (token) {
     jwt.verify(token, jwtSecret, (err, decodedToken) => {
       if (err) {
         return res.status(401).json({ message: "Not authorized" });
       } else {
         if (decodedToken.role !== "Basic") {
-          return res.status(401).json({ message: "Not authorized" });
+          return res.status(401).json({ message: "Role Not authorized" });
         } else {
           next();
         }

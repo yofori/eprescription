@@ -3,28 +3,28 @@ const Mongoose = require("mongoose");
 const InsurancePolicySchema = new Mongoose.Schema({
   code: {
     type: String,
-    required: true,
+    //required: true,
   },
   insurnaceCompanyName: {
     type: String,
-    required: true,
+    //required: true,
   },
   policyNo: {
     type: String,
-    required: true,
-    unique: true,
+    //required: true,
+    //unique: true,
   },
   benefitPackageCode: {
     type: String,
-    required: true,
+    //required: true,
   },
   benefitPackageName: {
     type: String,
-    required: true,
+    //required: true,
   },
   startDate: {
     type: Date,
-    required: true,
+    //required: true,
   },
   Status: {
     type: String,
@@ -80,7 +80,7 @@ const PatientSchema = new Mongoose.Schema({
     //membership number
     type: String,
   },
-  insurancePolicies: [InsurancePolicySchema]
+  insurancePolicies: [InsurancePolicySchema],
 });
 
 PatientSchema.set("timestamps", true);

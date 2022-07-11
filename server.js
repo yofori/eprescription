@@ -25,14 +25,13 @@ app.use(
     saveUninitialized: true,
     store: store,
     cookie: {
-      expires : 3 * 60 * 60 * 1000
-    }
+      expires: 3 * 60 * 60 * 1000,
+    },
   })
 );
 
 app.use(logger("dev"));
 const corsOptions = {
-  credentials: true,
   origin: "*",
 };
 const { adminAuth, userAuth } = require("./middleware/auth.js");

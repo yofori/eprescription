@@ -31,7 +31,7 @@ const createNew = async (req, res) => {
       req.body.prescriberID = user._id;
       req.body.prescriberMDCRegNo = user.prescriberMDCRegNo;
       req.body.prescriberName =
-        user.title || "" + " " + user.firstname + " " + user.surname;
+        ( user.title || "" ) + " " + user.firstname + " " + user.surname;
     }
   }
   const prescription = req.body;

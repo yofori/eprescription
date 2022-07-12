@@ -11,7 +11,7 @@ connectDB();
 const logger = require("morgan");
 
 const store = new MongoDBStore({
-  uri: "mongodb://localhost:27017/role_auth",
+  uri: process.env.MONGODB_URI,
   collection: "sessions",
 });
 

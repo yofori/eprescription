@@ -1,12 +1,39 @@
 const db = require("../models/index");
+require("dotenv").config();
+const jwt = require("jsonwebtoken");
+const jwtSecret = process.env.JWT_SECRET;
 
 //creates a prescription
-const createNew = async (req, res, next) => {
-  req.body.prescriberID = req.session.user._id;
+const createNew = async (req, res) => {
+  /*req.body.prescriberID = req.session.user._id;
   req.body.prescriberMDCRegNo = req.session.user.prescriberMDCRegNo;
   req.body.prescriberName =
     req.session.user.title ||
     "" + " " + req.session.user.firstname + " " + req.session.user.surname;
+    */
+
+  //get token from api request
+  const token = req.headers.authorization;
+  const decodedToken = jwt.decode(token);
+  if (!decodedToken) {
+    res
+      .status(401)
+      .json({ message: "There was no accompanying authorization token" });
+  } else {
+    // find user associated with this token and fetch their details
+    const user = await db.Users.findOne({ username: decodedToken.username });
+    if (!user) {
+      res.status(401).json({
+        message: "prescription creation not successful",
+        error: "No user found associated with authorization token",
+      });
+    } else {
+      req.body.prescriberID = user._id;
+      req.body.prescriberMDCRegNo = user.prescriberMDCRegNo;
+      req.body.prescriberName =
+        user.title || "" + " " + user.firstname + " " + user.surname;
+    }
+  }
   const prescription = req.body;
   await db.Prescription.create(prescription)
     .then((Prescription) => {

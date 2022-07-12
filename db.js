@@ -1,5 +1,6 @@
+require("dotenv").config();
 const Mongoose = require("mongoose");
-const localDB = `mongodb://localhost:27017/role_auth`;
+localDB = process.env.MONGODB_URI;
 const connectDB = async () => {
   await Mongoose.connect(localDB, {
     useNewUrlParser: true,

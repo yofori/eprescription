@@ -14,13 +14,13 @@ const createNew = async (req, res) => {
 
   //get token from api request
   const token = req.headers.authorization;
-  const decodedToken = jwt.decode(token);
-  if (!decodedToken) {
+  if (!token) {
     res
       .status(401)
       .json({ message: "There was no accompanying authorization token" });
   } else {
     // find user associated with this token and fetch their details
+    const decodedToken = jwt.decode(token, jwtSecret);
     const user = await db.Users.findOne({ username: decodedToken.username });
     if (!user) {
       res.status(401).json({
@@ -31,7 +31,7 @@ const createNew = async (req, res) => {
       req.body.prescriberID = user._id;
       req.body.prescriberMDCRegNo = user.prescriberMDCRegNo;
       req.body.prescriberName =
-        ( user.title || "" ) + " " + user.firstname + " " + user.surname;
+        (user.title || "") + " " + user.firstname + " " + user.surname;
     }
   }
   const prescription = req.body;
